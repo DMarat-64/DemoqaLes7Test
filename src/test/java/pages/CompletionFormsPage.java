@@ -76,7 +76,7 @@ public class CompletionFormsPage {
         return this;
     }
     public CompletionFormsPage setUploadPicture (String fileName) {
-        uploadPictureInput.uploadFromClasspath("2025-04-24_13-53-15.png");
+        uploadPictureInput.uploadFromClasspath("test.png");
 
         return this;
     }

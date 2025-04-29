@@ -7,46 +7,70 @@ import pages.components.ResultTableComponent;
 
 import java.util.Locale;
 
+
 public class DemoqaLes7WithFakerTests extends TestBase {
+
     CompletionFormsPage completionForms = new CompletionFormsPage();
     ResultTableComponent resultTableComponent = new ResultTableComponent();
 
+    Faker faker = new Faker(new Locale("en-GB"));
+
+    String firstName = faker.name().firstName();
+    String lastName = faker.name().lastName();
+    String userEmail = faker.internet().emailAddress();
+    String userGender = faker.options().option("Male", "Female", "Other");
+    String userNumber = faker.numerify("7#########");
+
+    String birthDay = String.format("%02d", faker.number().numberBetween(1, 28));
+    String birthMonth = faker.options().option(
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+    );
+    String birthYear = String.valueOf(faker.number().numberBetween(1900, 2100));
+    String subject = faker.options().option(
+            "Chemistry", "Maths", "Physics", "Arts", "English",
+            "Biology", "History", "Economics", "Computer Science", "Commerce", "Accounting"
+    );
+    String userSubject = faker.options().option(
+            "Chemistry", "Maths", "Physics", "Arts", "English",
+            "Biology", "History", "Economics", "Computer Science", "Commerce", "Accounting"
+    );
+    String userobbiesWrapper = faker.options().option("Sports", "Reading", "Music");
+    String streetAddress = faker.address().streetAddress();
+    String userState = "Haryana";
+    String userCity = "Karnal";
+
+
+
     @Test
     void fillFormTest() {
-
-        Faker faker = new Faker(new Locale("ru"));
-
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName();
-        String userEmail = faker.internet().emailAddress();
-        String streetAddress = faker.address().streetAddress();
-
         completionForms.openPage()
                 .setFirstName(firstName)
                 .setLastName(lastName)
                 .setEmail(userEmail)
-                .setGender("Male")
-                .setUserNumber("1234567890")
-                .setDateOfBirth("14", "August","1980")
-                .setSubjects("Biology")
-                .setHobbiesWrapper("Sports")
-                .setUploadPicture("2025-04-24_13-53-15.png")
+                .setGender(userGender)
+                .setUserNumber(userNumber)
+                .setDateOfBirth(birthDay, birthMonth,birthYear)
+                .setSubjects(userSubject)
+                .setHobbiesWrapper(userobbiesWrapper)
+                .setUploadPicture("test.png")
                 .setCurrentAddress(streetAddress)
-                .setState("Haryana")
-                .setCity("Karnal")
+                .setState(userState)
+                .setCity(userCity)
                 .clickSubmit();
+
         //Проверки
         resultTableComponent.successfullyCompletedCase()
                 .checkResult("Student Name", firstName + " " + lastName)
                 .checkResult("Student Email", userEmail)
-                .checkResult("Gender", "Male")
-                .checkResult("Mobile", "1234567890")
-                .checkResult("Date of Birth", "14 August,1980")
-                .checkResult("Subjects", "Biology")
-                .checkResult("Hobbies", "Sports")
-                .checkResult("Picture", "2025-04-24_13-53-15.png")
+                .checkResult("Gender", userGender)
+                .checkResult("Mobile", userNumber)
+                .checkResult("Date of Birth", birthDay + " " + birthMonth + "," + birthYear)
+                .checkResult("Subjects", userSubject)
+                .checkResult("Hobbies", userobbiesWrapper)
+                .checkResult("Picture", "test.png")
                 .checkResult("Address", streetAddress)
-                .checkResult("State and City", "Haryana Karnal");
+                .checkResult("State and City", userState + " " + userCity);
     }
 
 }
