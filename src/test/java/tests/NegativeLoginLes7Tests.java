@@ -6,41 +6,31 @@ import pages.components.ResultTableComponent;
 
 import static utils.RandomUtils.*;
 
-
-public class DemoqaLes7WithFakerTests extends TestBase {
+public class NegativeLoginLes7Tests extends TestBase {
 
     CompletionFormsPage completionForms = new CompletionFormsPage();
     ResultTableComponent resultTableComponent = new ResultTableComponent();
 
     @Test
-    void fillFormTest() {
+    void negativeLoginTest () {
         completionForms.openPage()
                 .setFirstName(firstName)
                 .setLastName(lastName)
                 .setEmail(userEmail)
                 .setGender(userGender)
-                .setUserNumber(userNumber)
                 .setDateOfBirth(birthDay, birthMonth,birthYear)
-                .setSubjects(userSubject)
                 .setHobbiesWrapper(userHobbiesWrapper)
-                .setUploadPicture("test.png")
                 .setCurrentAddress(streetAddress)
-                .setState(userState)
-                .setCity(userCity)
                 .clickSubmit();
-
         //Проверки
-        resultTableComponent.successfullyCompletedCase()
+        resultTableComponent.notsuccessfullyCompletedCase()
                 .checkResult("Student Name", firstName + " " + lastName)
                 .checkResult("Student Email", userEmail)
                 .checkResult("Gender", userGender)
-                .checkResult("Mobile", userNumber)
                 .checkResult("Date of Birth", birthDay + " " + birthMonth + "," + birthYear)
-                .checkResult("Subjects", userSubject)
                 .checkResult("Hobbies", userHobbiesWrapper)
-                .checkResult("Picture", "test.png")
-                .checkResult("Address", streetAddress)
-                .checkResult("State and City", userState + " " + userCity);
+                .checkResult("Address", streetAddress);
     }
 
 }
+
